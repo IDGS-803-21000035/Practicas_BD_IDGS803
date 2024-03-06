@@ -1,0 +1,121 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+{%from "_macros.html" import render_field%}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="contenedor">
+                <div class="titulo">PIZZERIA</div>
+                <form id="pizza-form" action="" method="POST"> <br>
+                    
+                    <div class="row">
+                        <div class="col">
+                            {{render_field(form.nombre, class="form-control")}}
+                            <br>
+                        </div>
+
+                        <div class="col">
+                            {{render_field(form.telefono, class="form-control")}}
+                            <br>
+                        </div>
+
+                        <div class="col">
+                            {{render_field(form.direccion, class="form-control")}}
+                            <br>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            {{render_field(form.tamanio, id="tamanio")}}
+                            <br>
+                        </div>
+
+                        <div class="col">
+                            {{render_field(form.intredientes, id="ingredientes")}}
+                            <br>
+                        </div>
+
+                        <div class="col">
+                            {{render_field(form.numPizas, id="numPizas")}}
+                            <br>
+                        </div>
+                    </div>
+
+                    <input type="submit" id="add" name="add" 
+                    class="btn btn-danger" value="Agregar"/>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    
+        <div class="row">        
+            <table id="pizza-table" class="table">
+                <thead>
+                    <tr>
+                        <th>Tamaño</th>
+                        <th>Ingredientes</th>
+                        <th>Número de pizzas</th>
+                        <th>Sub total</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+    
+                <tbody>
+                    
+                </tbody>
+            </table>
+        </div>
+        
+        <form name="registro" action="/comprar" id="eliminar" method="post">
+            <input type="hidden" name="csrf_token" value="{{csrf_token()}}"/>
+            <input type="submit" id="terminar" name="terminar" value="Terminar"
+            class="btn btn-danger"/>
+        </form>
+
+</div>
+
+<script>
+    document.getElementById("pizza-form").addEventListener("submit", function(event) {
+        event.preventDefault(); // Evita que se envíe el formulario
+
+        // Obtener los valores de la pizza seleccionada
+        var tamano = document.getElementById("tamanio").value;
+        var ingredientes = document.getElementById("ingredientes").value;
+        var numPizas = document.getElementById("numPizas").value;
+
+        // Crear una nueva fila para la tabla
+        var table = document.getElementById("pizza-table").getElementsByTagName("tbody")[0];
+        var newRow = table.insertRow();
+        var cell1 = newRow.insertCell(0);
+        var cell2 = newRow.insertCell(1);
+        var cell3 = newRow.insertCell(2);
+        cell1.innerHTML = tamano;
+        cell2.innerHTML = ingredientes;
+        cell3.innerHTML = numPizas;
+    });
+</script>
+
+    <style>
+        .contenedor {
+            border: 2px solid #333; 
+            padding: 10px;
+            margin: 20px; 
+            position: relative; 
+        }
+
+        .titulo {
+            font-size: 18px; 
+            font-weight: bold;
+            position: absolute;
+            top: -12px; 
+            background-color: white; 
+            padding: 0 10px; 
+        }
+    </style>
+
+{% endblock %}

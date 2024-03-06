@@ -20,6 +20,19 @@ csrf = CSRFProtect()
 def page_not_found(e):
     return render_template('404.html'), 404
 
+@app.route("/pizza", methods=["GET", "POST"])
+def piza():
+    pizz_form = forms.PizzaForms(request.form)
+    return render_template("pizzeria.html", form = pizz_form)
+
+@app.route("/cliente", methods=["GET", "POST"])
+def venta():
+    pizz_form = forms.PizzaForms(request.form)
+    if request.method == "POST":
+        pass  
+        
+        return render_template("pizzeria.html", form = pizz_form)
+            
 
 
 @app.route("/index", methods=["GET", "POST"])
@@ -39,6 +52,51 @@ def index():
         db.session.commit()
     
     return render_template("index.html", form = empl_form)
+
+@app.route('/eliminar', methods=["GET","POST"])
+def eliminar():
+    empl_form = forms.EmpleadoForms(request.form)
+    if request.method=="GET":
+        id = request.args.get('id')
+        emp1 = db.session.query(Empleados).filter(Empleados.id==id).first()
+        empl_form.id.data=request.args.get('id')
+        empl_form.nombre.data=emp1.nombre
+        empl_form.correo.data=emp1.correo
+        empl_form.telefono.data=emp1.telefono
+        empl_form.direccion.data=emp1.direccion
+        empl_form.sueldo.data=emp1.sueldo
+    if request.method=="POST":
+        id = empl_form.id.data
+        emp = Empleados.query.get(id)
+        db.session.delete(emp)
+        db.session.commit()
+        return redirect('ABC')
+    return render_template('eliminar.html', form= empl_form)
+
+@app.route('/modificar', methods=["GET","POST"])
+def modificar():
+    empl_form = forms.EmpleadoForms(request.form)
+    if request.method=="GET":
+        id = request.args.get('id')
+        emp1 = db.session.query(Empleados).filter(Empleados.id==id).first()
+        empl_form.id.data=request.args.get('id')
+        empl_form.nombre.data=emp1.nombre
+        empl_form.correo.data=emp1.correo
+        empl_form.telefono.data=emp1.telefono
+        empl_form.direccion.data=emp1.direccion
+        empl_form.sueldo.data=emp1.sueldo
+    if request.method=="POST":
+        id = empl_form.id.data
+        emp = db.session.query(Empleados).filter(Empleados.id==id).first()
+        emp.nombre = empl_form.nombre.data
+        emp.correo = empl_form.correo.data
+        emp.telefono = empl_form.telefono.data
+        emp.direccion = empl_form.direccion.data
+        emp.sueldo = empl_form.sueldo.data
+        db.session.add(emp)
+        db.session.commit()
+        return redirect('ABC')
+    return render_template('modificar.html', form = empl_form)
 
 @app.route("/ABC", methods = ["GET","POST"])
 def ABC_Completo():
