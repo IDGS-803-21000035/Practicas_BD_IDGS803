@@ -39,13 +39,10 @@ class PizzaForms(Form):
         validators.DataRequired(message = 'El campo es requerido')
     ])
 
-    tamanios = [('0', 'Chica'), ('1', 'Mediana'), ('2', 'Grande')]
-    tamanio = RadioField('Ingredientes: ', choices=tamanios)
+    tamanios = [('Chica', 'Chica $40'), ('Mediana', 'Mediana $80'), ('Grande', 'Grande $120')]
+    tamanio = RadioField('Tamaño: ', choices=tamanios)
 
-    
-
-    opciones = [('0', 'Jamón $10'), ('1', 'Piña $10'), ('2', 'Champiñones $10')]
-    intredientes = RadioField('Ingredientes: ', choices=opciones)
-
+    opciones = [('Jamon', 'Jamón $10'), ('Piña', 'Piña $10'), ('Champiñones', 'Champiñones $10')]
+    ingredientes = RadioField('Ingredientes: ', choices=opciones)
 
     numPizas = IntegerField('numPizas')

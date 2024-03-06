@@ -35,7 +35,7 @@
                         </div>
 
                         <div class="col">
-                            {{render_field(form.intredientes, id="ingredientes")}}
+                            {{render_field(form.ingredientes, id="ingredientes")}}
                             <br>
                         </div>
 
@@ -83,22 +83,26 @@
     document.getElementById("pizza-form").addEventListener("submit", function(event) {
         event.preventDefault(); // Evita que se envíe el formulario
 
-        // Obtener los valores de la pizza seleccionada
-        var tamano = document.getElementById("tamanio").value;
-        var ingredientes = document.getElementById("ingredientes").value;
-        var numPizas = document.getElementById("numPizas").value;
+        var tamano = document.querySelector("[name='tamanio']").value;
+        var ingredientes = document.querySelector("[name='ingredientes']").value;
+        var numPizas = document.querySelector("[name='numPizas']").value;
 
-        // Crear una nueva fila para la tabla
+
         var table = document.getElementById("pizza-table").getElementsByTagName("tbody")[0];
         var newRow = table.insertRow();
         var cell1 = newRow.insertCell(0);
         var cell2 = newRow.insertCell(1);
         var cell3 = newRow.insertCell(2);
+        var cell4 = newRow.insertCell(3);
+        var cell5 = newRow.insertCell(4);
         cell1.innerHTML = tamano;
         cell2.innerHTML = ingredientes;
         cell3.innerHTML = numPizas;
+        cell4.innerHTML = 'hola';
+        cell5.innerHTML = '<button class="btn btn-danger">X</button>';
     });
 </script>
+
 
     <style>
         .contenedor {
